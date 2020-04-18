@@ -10,7 +10,7 @@ https://laravel.com/docs/7.x
 > cd task-list-app
 
 ## Database ##
-Create table/s using **migration** and **migrate**.
+##### Create table/s using **migration** and **migrate**. #####
 **make:migration** command to generate a new database migration for **tasks** table.
 > php artisan make:migration create_tasks_table --create=tasks
 
@@ -32,3 +32,9 @@ public function up()
 > php artisan migrate
 
 Check your table/s from your database(default db 'laravel' were used in this tutorial) in **localhost/phpmyadmin/**.
+
+##### **Models** (Eloquent models) #####
+**make:model** command to generate **Task** model.
+> php artisan make:model Task
+
+Check **app/** directory for the newly created model **Task**.
