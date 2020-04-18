@@ -156,3 +156,41 @@ Add this code to **resources/views/tasks.blade.php**
 `@extends` directive defines that we are using the layout, **resourecs/views/layouts/app.blade.php**.
 Between `@section('content')` and `@endsection` are the content which were defined by `@yield('content')`at **app.blade.php** layout.
 `@include('common.errors')` directive will load the template at **resources/views/common/errors.blade.php**.
+
+## Adding Tasks ##
+
+##### Validation #####
+Add the code into the **POST** method at **routes/web.php**.
+```
+Route::post('/task', function (Request $request) {
+    $validator = Validator::make($request->all(), [
+        'name' => 'required|max:255',
+    ]);
+
+    if ($validator->fails()) {
+        return redirect('/')
+            ->withInput()
+            ->withErrors($validator);
+    }
+
+    // Create The Task...
+});
+```
+
+Add the code in ***resources/views/common/errors.blade.php**.
+```
+@if (count($errors) > 0)
+    <!-- Form Error List -->
+    <div class="alert alert-danger">
+        <strong>Whoops! Something went wrong!</strong>
+
+        <br><br>
+
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+```

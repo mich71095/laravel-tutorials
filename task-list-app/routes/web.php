@@ -27,12 +27,22 @@ Route::get('/', function () {
  * Add New Task
  */
 Route::post('/task', function (Request $request) {
-    //
+    $validator = Validator::make($request->all(), [
+        'name' => 'required|max:255',
+    ]);
+
+    if ($validator->fails()) {
+        return redirect('/')
+            ->withInput()
+            ->withErrors($validator);
+    }
+
+    // Create The Task...
 });
 
 /**
  * Delete Task
- */
+ */git stats_cdf_uniform(par1, par2, par3, which)
 Route::delete('/task/{task}', function (Task $task) {
     //
 });
