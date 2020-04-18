@@ -20,7 +20,7 @@ use App\Task;
  * Show Task Dashboard
  */
 Route::get('/', function () {
-    //
+    return view('tasks');
 });
 
 /**
