@@ -9,6 +9,7 @@ https://laravel.com/docs/7.x
 
 ## Setup ##
 > composer create-project laravel/laravel task-list-app --prefer-dist
+and then
 > cd task-list-app
 
 
@@ -22,7 +23,7 @@ Add string **name** on date_create_tasks_table.php from **database/migrations** 
 public function up()
 {
     Schema::create('tasks', function (Blueprint $table) {
-        $table->increments('id');
+        $table->increments('id'); // id should be auto increment
         $table->string('name'); //new code
         $table->timestamps();
     });
@@ -83,3 +84,30 @@ Route::get('/', function () {
     return view('tasks');
 });
 ```
+
+## Building Layouts & Views ##
+
+##### Layout #####
+Create a layout view **app.blade.php** on **resources/views/layouts** directory, **resources/views/layouts/app.blade.php**.
+```
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Laravel Quickstart - Basic</title>
+
+        <!-- CSS And JavaScript -->
+    </head>
+
+    <body>
+        <div class="container">
+            <nav class="navbar navbar-default">
+                <!-- Navbar Contents -->
+            </nav>
+        </div>
+
+        @yield('content')
+    </body>
+</html>
+```
+
+**Note**: `@yield('content')`, a special Blade directive which specify all child pages.
