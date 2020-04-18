@@ -160,7 +160,7 @@ Between `@section('content')` and `@endsection` are the content which were defin
 ## Adding Tasks ##
 
 ##### Validation #####
-Add the code into the **POST** method at **routes/web.php**.
+Add the code in **POST** method at **routes/web.php**.
 ```
 Route::post('/task', function (Request $request) {
     $validator = Validator::make($request->all(), [
@@ -194,3 +194,14 @@ Add the code in ***resources/views/common/errors.blade.php**.
     </div>
 @endif
 ```
+##### Creating the task #####
+Add the code in **POST** method at **routes/web.php**.
+```
+$task = new Task;
+$task->name = $request->name;
+$task->save();
+
+    return redirect('/');
+```
+
+**save** method to save the created task.

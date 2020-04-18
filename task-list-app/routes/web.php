@@ -38,6 +38,11 @@ Route::post('/task', function (Request $request) {
     }
 
     // Create The Task...
+    $task = new Task;
+    $task->name = $request->name;
+    $task->save();
+
+    return redirect('/');
 });
 
 /**
