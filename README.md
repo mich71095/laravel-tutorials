@@ -111,3 +111,48 @@ Create a layout view **app.blade.php** on **resources/views/layouts** directory,
 ```
 
 **Note**: `@yield('content')`, a special Blade directive which specify all child pages.
+
+##### Child View #####
+Add this code to **resources/views/tasks.blade.php**
+```
+@extends('layouts.app')
+
+@section('content')
+
+    <!-- Bootstrap Boilerplate... -->
+
+    <div class="panel-body">
+        <!-- Display Validation Errors -->
+        @include('common.errors')
+
+        <!-- New Task Form -->
+        <form action="{{ url('task') }}" method="POST" class="form-horizontal">
+            {{ csrf_field() }}
+
+            <!-- Task Name -->
+            <div class="form-group">
+                <label for="task" class="col-sm-3 control-label">Task</label>
+
+                <div class="col-sm-6">
+                    <input type="text" name="name" id="task-name" class="form-control">
+                </div>
+            </div>
+
+            <!-- Add Task Button -->
+            <div class="form-group">
+                <div class="col-sm-offset-3 col-sm-6">
+                    <button type="submit" class="btn btn-default">
+                        <i class="fa fa-plus"></i> Add Task
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!-- TODO: Current Tasks -->
+@endsection
+```
+
+`@extends` directive defines that we are using the layout, **resourecs/views/layouts/app.blade.php**.
+Between `@section('content')` and `@endsection` are the content which were defined by `@yield('content')`at **app.blade.php** layout.
+`@include('common.errors')` directive will load the template at **resources/views/common/errors.blade.php**.
