@@ -177,7 +177,7 @@ Route::post('/task', function (Request $request) {
 });
 ```
 
-Add the code in ***resources/views/common/errors.blade.php**.
+Add the code in **resources/views/common/errors.blade.php**.
 ```
 @if (count($errors) > 0)
     <!-- Form Error List -->
@@ -194,6 +194,7 @@ Add the code in ***resources/views/common/errors.blade.php**.
     </div>
 @endif
 ```
+
 ##### Creating the task #####
 Add the code in **POST** method at **routes/web.php**.
 ```
@@ -205,3 +206,54 @@ $task->save();
 ```
 
 **save** method to save the created task.
+
+##### Displaying Existing Tasks #####
+Add the code in **/** route at **routes/web.php**.
+```
+Route::get('/', function () {
+    $tasks = Task::orderBy('created_at', 'asc')->get();
+
+    return view('tasks', [
+        'tasks' => $tasks
+    ]);
+});
+```
+
+Add the code in **tasks.blade.php**.
+```
+<!-- Current Tasks -->
+    @if (count($tasks) > 0)
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Current Tasks
+            </div>
+
+            <div class="panel-body">
+                <table class="table table-striped task-table">
+
+                    <!-- Table Headings -->
+                    <thead>
+                        <th>Task</th>
+                        <th>&nbsp;</th>
+                    </thead>
+
+                    <!-- Table Body -->
+                    <tbody>
+                        @foreach ($tasks as $task)
+                            <tr>
+                                <!-- Task Name -->
+                                <td class="table-text">
+                                    <div>{{ $task->name }}</div>
+                                </td>
+
+                                <td>
+                                    <!-- TODO: Delete Button -->
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    @endif
+```

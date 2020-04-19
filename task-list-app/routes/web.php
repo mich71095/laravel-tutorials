@@ -20,7 +20,11 @@ use App\Task;
  * Show Task Dashboard
  */
 Route::get('/', function () {
-    return view('tasks');
+    $tasks = Task::orderBy('created_at', 'asc')->get();
+
+    return view('tasks', [
+        'tasks' => $tasks
+    ]);
 });
 
 /**
@@ -47,7 +51,7 @@ Route::post('/task', function (Request $request) {
 
 /**
  * Delete Task
- */git stats_cdf_uniform(par1, par2, par3, which)
+ */
 Route::delete('/task/{task}', function (Task $task) {
     //
 });
