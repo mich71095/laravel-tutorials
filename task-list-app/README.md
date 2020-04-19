@@ -7,73 +7,292 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
 </p>
 
-## About Laravel
+# laravel-tutorials
+Official Laravel 5.2 tutorials with task list app.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Installation ##
+Using Laravel 7.
+https://laravel.com/docs/7.x
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
 
-## Learning Laravel
+## Setup ##
+> composer create-project laravel/laravel task-list-app --prefer-dist
+and then
+> cd task-list-app
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## Database ##
+##### Create table/s using **migration** and **migrate**. #####
+**make:migration** command to generate a new database migration for **tasks** table.
+> php artisan make:migration create_tasks_table --create=tasks
 
-## Laravel Sponsors
+Add string **name** on date_create_tasks_table.php from **database/migrations** directory.
+```
+public function up()
+{
+    Schema::create('tasks', function (Blueprint $table) {
+        $table->increments('id'); // id should be auto increment
+        $table->string('name'); //new code
+        $table->timestamps();
+    });
+}
+```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+**Note**: Make sure **lamp** or **xampp** is running. You will know if it's running when you can access **localhost/phpmyadmin/**.
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[British Software Development](https://www.britishsoftware.co)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- [UserInsights](https://userinsights.com)
-- [Fragrantica](https://www.fragrantica.com)
-- [SOFTonSOFA](https://softonsofa.com/)
-- [User10](https://user10.com)
-- [Soumettre.fr](https://soumettre.fr/)
-- [CodeBrisk](https://codebrisk.com)
-- [1Forge](https://1forge.com)
-- [TECPRESSO](https://tecpresso.co.jp/)
-- [Runtime Converter](http://runtimeconverter.com/)
-- [WebL'Agence](https://weblagence.com/)
-- [Invoice Ninja](https://www.invoiceninja.com)
-- [iMi digital](https://www.imi-digital.de/)
-- [Earthlink](https://www.earthlink.ro/)
-- [Steadfast Collective](https://steadfastcollective.com/)
-- [We Are The Robots Inc.](https://watr.mx/)
-- [Understand.io](https://www.understand.io/)
-- [Abdel Elrafa](https://abdelelrafa.com)
-- [Hyper Host](https://hyper.host)
-- [Appoly](https://www.appoly.co.uk)
-- [OP.GG](https://op.gg)
-- [云软科技](http://www.yunruan.ltd/)
+**migrate** command will create all of databases tables.
+> php artisan migrate
 
-## Contributing
+Check your table/s from your database(default db 'laravel' were used in this tutorial) in **localhost/phpmyadmin/**.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+##### **Models** (Eloquent models) #####
+**make:model** command to generate **Task** model.
+> php artisan make:model Task
 
-## Code of Conduct
+Check **app/** directory for the newly created model **Task**.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
 
-## Security Vulnerabilities
+## Routing ##
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+##### Adding routes  #####
+Add routes on **routes/web.php**.
 
-## License
+```
+use App\Task;
+use Illuminate\Http\Request;
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+/**
+ * Show Task Dashboard
+ */
+Route::get('/', function () {
+    //
+});
+
+/**
+ * Add New Task
+ */
+Route::post('/task', function (Request $request) {
+    //
+});
+
+/**
+ * Delete Task
+ */
+Route::delete('/task/{task}', function (Task $task) {
+    //
+});
+```
+
+##### Display a view(html template) #####
+Create a **tasks** view on **resources/views/** directory, **resources/views/tasks.blade.php**.
+
+Connect **tasks** view to your router.
+```
+Route::get('/', function () {
+    return view('tasks');
+});
+```
+
+## Building Layouts & Views ##
+
+##### Layout #####
+Create a layout view **app.blade.php** on **resources/views/layouts** directory, **resources/views/layouts/app.blade.php**.
+```
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Laravel Quickstart - Basic</title>
+
+        <!-- CSS And JavaScript -->
+    </head>
+
+    <body>
+        <div class="container">
+            <nav class="navbar navbar-default">
+                <!-- Navbar Contents -->
+            </nav>
+        </div>
+
+        @yield('content')
+    </body>
+</html>
+```
+
+**Note**: `@yield('content')`, a special Blade directive which specify all child pages.
+
+##### Child View #####
+Add this code to **resources/views/tasks.blade.php**
+```
+@extends('layouts.app')
+
+@section('content')
+
+    <!-- Bootstrap Boilerplate... -->
+
+    <div class="panel-body">
+        <!-- Display Validation Errors -->
+        @include('common.errors')
+
+        <!-- New Task Form -->
+        <form action="{{ url('task') }}" method="POST" class="form-horizontal">
+            {{ csrf_field() }}
+
+            <!-- Task Name -->
+            <div class="form-group">
+                <label for="task" class="col-sm-3 control-label">Task</label>
+
+                <div class="col-sm-6">
+                    <input type="text" name="name" id="task-name" class="form-control">
+                </div>
+            </div>
+
+            <!-- Add Task Button -->
+            <div class="form-group">
+                <div class="col-sm-offset-3 col-sm-6">
+                    <button type="submit" class="btn btn-default">
+                        <i class="fa fa-plus"></i> Add Task
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!-- TODO: Current Tasks -->
+@endsection
+```
+
+`@extends` directive defines that we are using the layout, **resourecs/views/layouts/app.blade.php**.
+Between `@section('content')` and `@endsection` are the content which were defined by `@yield('content')`at **app.blade.php** layout.
+`@include('common.errors')` directive will load the template at **resources/views/common/errors.blade.php**.
+
+## Adding Tasks ##
+
+##### Validation #####
+Add the code in **POST** method at **routes/web.php**.
+```
+Route::post('/task', function (Request $request) {
+    $validator = Validator::make($request->all(), [
+        'name' => 'required|max:255',
+    ]);
+
+    if ($validator->fails()) {
+        return redirect('/')
+            ->withInput()
+            ->withErrors($validator);
+    }
+
+    // Create The Task...
+});
+```
+
+Add the code in **resources/views/common/errors.blade.php**.
+```
+@if (count($errors) > 0)
+    <!-- Form Error List -->
+    <div class="alert alert-danger">
+        <strong>Whoops! Something went wrong!</strong>
+
+        <br><br>
+
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+```
+
+##### Creating the task #####
+Add the code in **POST** method at **routes/web.php**.
+```
+$task = new Task;
+$task->name = $request->name;
+$task->save();
+
+    return redirect('/');
+```
+
+**save** method to save the created task.
+
+##### Displaying Existing Tasks #####
+Add the code in **/** route at **routes/web.php**.
+```
+Route::get('/', function () {
+    $tasks = Task::orderBy('created_at', 'asc')->get();
+
+    return view('tasks', [
+        'tasks' => $tasks
+    ]);
+});
+```
+
+Add the code in **tasks.blade.php**.
+```
+<!-- Current Tasks -->
+@if (count($tasks) > 0)
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            Current Tasks
+        </div>
+
+        <div class="panel-body">
+            <table class="table table-striped task-table">
+
+                <!-- Table Headings -->
+                <thead>
+                    <th>Task</th>
+                    <th>&nbsp;</th>
+                </thead>
+
+                <!-- Table Body -->
+                <tbody>
+                    @foreach ($tasks as $task)
+                        <tr>
+                            <!-- Task Name -->
+                            <td class="table-text">
+                                <div>{{ $task->name }}</div>
+                            </td>
+
+                            <td>
+                                <!-- TODO: Delete Button -->
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+    </div>
+@endif
+```
+
+## Deleting Tasks ##
+
+##### Delete Button #####
+Add the code in **tasks.blade.php**.
+```
+<form action="{{ url('task/'.$task->id) }}" method="POST">
+    {{ csrf_field() }}
+    {{ method_field('DELETE') }}
+
+    <button type="submit" class="btn btn-danger">
+        <i class="fa fa-trash"></i> Delete
+    </button>
+</form>
+```
+
+**Note**: use **method_field('DELETE')** to spoof the request since HTML forms only allow **GET** and **POST** method.
+
+##### Deleting The Task ######
+Add the code in **DELETE** method in **routes/web.php**.
+```
+Route::delete('/task/{task}', function (Task $task) {
+    $task->delete();
+
+    return redirect('/');
+});
+```
+
+## Run the app ##
+> php artisan serve
