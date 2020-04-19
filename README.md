@@ -72,3 +72,14 @@ public function tasks()
     return $this->hasMany(Task::class);
 }
 ```
+
+## Routing
+### Display a view (html template)
+Create a **tasks** view on **resources/views/** directory, **resources/views/tasks.blade.php**.
+
+Add the code to connect **tasks** view to your router, **routes/web.php**.
+```
+Route::get('/', function () {
+    return view('tasks');
+});
+```
