@@ -48,3 +48,27 @@ Add the code on **app/Task.php**
  */
 protected $fillable = ['name'];
 ```
+
+### Relationships (Eloquent relationships)
+Add the code on **app/User.php**
+```
+/**
+ * Get the user that owns the task.
+ */
+public function user()
+{
+    return $this->belongsTo(User::class);
+}
+
+```
+
+Add the code on **app/Task.php**
+```
+/**
+ * Get all of the tasks for the user.
+ */
+public function tasks()
+{
+    return $this->hasMany(Task::class);
+}
+```
