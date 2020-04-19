@@ -284,3 +284,6 @@ Route::delete('/task/{task}', function (Task $task) {
     return redirect('/');
 });
 ```
+
+## Run the app ##
+> php artisan serve
