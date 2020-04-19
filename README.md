@@ -222,38 +222,65 @@ Route::get('/', function () {
 Add the code in **tasks.blade.php**.
 ```
 <!-- Current Tasks -->
-    @if (count($tasks) > 0)
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                Current Tasks
-            </div>
-
-            <div class="panel-body">
-                <table class="table table-striped task-table">
-
-                    <!-- Table Headings -->
-                    <thead>
-                        <th>Task</th>
-                        <th>&nbsp;</th>
-                    </thead>
-
-                    <!-- Table Body -->
-                    <tbody>
-                        @foreach ($tasks as $task)
-                            <tr>
-                                <!-- Task Name -->
-                                <td class="table-text">
-                                    <div>{{ $task->name }}</div>
-                                </td>
-
-                                <td>
-                                    <!-- TODO: Delete Button -->
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
+@if (count($tasks) > 0)
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            Current Tasks
         </div>
-    @endif
+
+        <div class="panel-body">
+            <table class="table table-striped task-table">
+
+                <!-- Table Headings -->
+                <thead>
+                    <th>Task</th>
+                    <th>&nbsp;</th>
+                </thead>
+
+                <!-- Table Body -->
+                <tbody>
+                    @foreach ($tasks as $task)
+                        <tr>
+                            <!-- Task Name -->
+                            <td class="table-text">
+                                <div>{{ $task->name }}</div>
+                            </td>
+
+                            <td>
+                                <!-- TODO: Delete Button -->
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+    </div>
+@endif
+```
+
+## Deleting Tasks ##
+
+##### Delete Button #####
+Add the code in **tasks.blade.php**.
+```
+<form action="{{ url('task/'.$task->id) }}" method="POST">
+    {{ csrf_field() }}
+    {{ method_field('DELETE') }}
+
+    <button type="submit" class="btn btn-danger">
+        <i class="fa fa-trash"></i> Delete
+    </button>
+</form>
+```
+
+**Note**: use **method_field('DELETE')** to spoof the request since HTML forms only allow **GET** and **POST** method.
+
+##### Deleting The Task ######
+Add the code in **DELETE** method in **routes/web.php**.
+```
+Route::delete('/task/{task}', function (Task $task) {
+    $task->delete();
+
+    return redirect('/');
+});
 ```
