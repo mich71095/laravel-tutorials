@@ -83,3 +83,47 @@ Route::get('/', function () {
     return view('tasks');
 });
 ```
+
+## Authentication
+> composer require laravel/ui
+> php artisan ui vue --auth
+
+Check **routes/web.php**. New codes will be added.
+
+```
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
+```
+Delete:
+```
+Route::get('/home','HomeController@index')->name('home');
+Route::get('/', function () {
+	return view('tasks');
+});
+```
+
+Check **Controllers** and delete **HomeController.php**.
+Check **resources** and delete **welcome.blade.php** and **home.balde.php**.
+
+## The Task Controller
+> php artisan make:controller TaskController
+
+Check **routes/web.php** and new codes.
+```
+Route::get('/tasks', 'TaskController@index')->name('tasks');
+Route::post('/task', 'TaskController@store');
+Route::delete('/task/{task}', 'TaskController@destroy');
+```
+Check **TaskController.php** and new code to authenticate all routes and to connect your view.
+```
+public function __construct()
+{
+    $this->middleware('auth');
+}
+
+public function index()
+{
+    return view('tasks');
+}
+```
