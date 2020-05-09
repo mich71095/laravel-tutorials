@@ -17,12 +17,13 @@ class TaskController extends Controller
     }
 
     /**
-     * Show the application dashboard.
+     * Display a list of all of the user's task.
      *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
-    public function index()
+     * @param  Request  $request
+     * @return Response
+    */
+    public function index(Request $request)
     {
-        return view('tasks');
+        return view('tasks.index');
     }
 }
