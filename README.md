@@ -344,3 +344,23 @@ Check **index.blade.php** and add this code.
     </div>
 @endif
 ```
+
+### Deleting Tasks
+## Adding The Delete Button
+Check **index.blade.php** and add this code.
+```
+<!-- Delete Button -->
+<td>
+    <form action="{{ url('task/'.$task->id) }}" method="POST">
+        {{ csrf_field() }}
+        {{ method_field('DELETE') }}
+
+        <button type="submit" id="delete-task-{{ $task->id }}" class="btn btn-danger">
+            <i class="fa fa-btn fa-trash"></i>Delete
+        </button>
+    </form>
+</td>
+```
+**Note** that the delete button's form method is listed as **POST**, even though we are responding to the request using a **Route::delete** route. **HTML forms** only allow the **GET** and **POST** HTTP verbs, so we need a way to spoof a **DELETE** request from the form.
+
+We can spoof a **DELETE request** by outputting the results of the **method_field('DELETE')** function within our form. This function generates a hidden form input that Laravel recognizes and will use to override the actual HTTP request method.
