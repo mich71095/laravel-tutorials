@@ -401,3 +401,14 @@ protected $policies = [
     'App\Task' => 'App\Policies\TaskPolicy',
 ];
 ```
+## Authorizing The Action
+Check **TaskController.php** and add this code.
+```
+public function destroy(Request $request, Task $task)
+{
+    $this->authorize('destroy', $task);
+
+    // Delete The Task...
+}
+```
+If the action is authorized, our code will continue executing normally. However, if the action is not authorized (meaning the policy's destroy method returned false), a 403 exception will be thrown and an error page will be displayed to the user.

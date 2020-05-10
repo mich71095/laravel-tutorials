@@ -62,7 +62,7 @@ class TaskController extends Controller
         return redirect('/tasks');
     }
 
-    
+
     /**
      * Destroy the given task.
      *
@@ -72,6 +72,8 @@ class TaskController extends Controller
      */
     public function destroy(Request $request, Task $task)
     {
-        //
+        $this->authorize('destroy', $task);
+
+        // Delete The Task...
     }
 }
