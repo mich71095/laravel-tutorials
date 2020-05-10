@@ -271,3 +271,37 @@ class TaskRepository
     }
 }
 ```
+## Injecting the Repository
+Check your **TaskController.php**.
+It should have these code.
+```
+use App\Task;
+use App\Http\Requests;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Repositories\TaskRepository;
+```
+Add this code.
+```
+/**
+ * The task repository instance.
+ *
+ * @var TaskRepository
+ */
+protected $tasks;
+```
+Edit **__construct**.
+```
+public function __construct(TaskRepository $tasks)
+{
+    $this->middleware('auth');
+
+    $this->tasks = $tasks;
+}
+```
+Edit **index**.
+```
+return view('tasks.index', [
+    'tasks' => $this->tasks->forUser($request->user()),
+]);
+```
