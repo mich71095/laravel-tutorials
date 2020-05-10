@@ -380,3 +380,24 @@ public function destroy(Request $request, Task $task)
     //
 }
 ```
+
+## Authorization
+We have no guarantee that the authenticated user actually "owns" the given task. For example, a malicious request could have been concocted in an attempt to delete another user's tasks by passing a random task ID to the /tasks/{task} URL. So, we need to use Laravel's authorization capabilities to make sure the authenticated user actually owns the Task instance that was injected into the route.
+
+## Creating A Policy
+> php artisan make:policy TaskPolicy
+Check **app/Policies/TaskPolicy.php** and add this code.
+```
+use App\Task;
+
+public function destroy(User $user, Task $task)
+{
+    return $user->id === $task->user_id;
+}
+```
+Check **app/Providers/AuthServiceProvider.php** and add this code.
+```
+protected $policies = [
+    'App\Task' => 'App\Policies\TaskPolicy',
+];
+```
