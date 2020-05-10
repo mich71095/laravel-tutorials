@@ -244,3 +244,30 @@ public function store(Request $request)
     return redirect('/tasks');
 }
 ```
+
+### Displaying Existing Tasks
+## Dependency Injection
+Create an **app/Repositories** directory, add a **TaskRepository** class and add this code.
+```
+<?php
+
+namespace App\Repositories;
+
+use App\User;
+
+class TaskRepository
+{
+    /**
+     * Get all of the tasks for a given user.
+     *
+     * @param  User  $user
+     * @return Collection
+     */
+    public function forUser(User $user)
+    {
+        return $user->tasks()
+                    ->orderBy('created_at', 'asc')
+                    ->get();
+    }
+}
+```
