@@ -412,3 +412,16 @@ public function destroy(Request $request, Task $task)
 }
 ```
 If the action is authorized, our code will continue executing normally. However, if the action is not authorized (meaning the policy's destroy method returned false), a 403 exception will be thrown and an error page will be displayed to the user.
+
+## Deleting The Task
+Check **TaskController.php** and add this code.
+```
+public function destroy(Request $request, Task $task)
+{
+    $this->authorize('destroy', $task);
+
+    $task->delete();
+
+    return redirect('/tasks');
+}
+```

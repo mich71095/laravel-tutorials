@@ -74,6 +74,8 @@ class TaskController extends Controller
     {
         $this->authorize('destroy', $task);
 
-        // Delete The Task...
+        $task->delete();
+
+        return redirect('/tasks');
     }
 }
