@@ -179,3 +179,68 @@ Create this file **resources/views/tasks/index.blade.php** and this code.
 @endsection
 ```
 Delete **tasks.blade.php** from **resources/views/**.
+
+### Adding Tasks
+## Validation
+Check **TaskController.php** and add this code.
+```
+/**
+ * Create a new task.
+ *
+ * @param  Request  $request
+ * @return Response
+ */
+public function store(Request $request)
+{
+    $this->validate($request, [
+        'name' => 'required|max:255',
+    ]);
+
+    // Create The Task...
+}
+```
+Create this file **resources/views/common/errors.blade.php** and add this code.
+```
+@if (count($errors) > 0)
+    <!-- Form Error List -->
+    <div class="alert alert-danger">
+        <strong>Whoops! Something went wrong!</strong>
+
+        <br><br>
+
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+```
+Check **index.blade.php** and add this code.
+```
+<!-- Display Validation Errors -->
+@include('common.errors')
+```
+
+##Creating The Task
+Check **TaskController.php** and add this code.
+```
+/**
+ * Create a new task.
+ *
+ * @param  Request  $request
+ * @return Response
+ */
+public function store(Request $request)
+{
+    $this->validate($request, [
+        'name' => 'required|max:255',
+    ]);
+
+    $request->user()->tasks()->create([
+        'name' => $request->name,
+    ]);
+
+    return redirect('/tasks');
+}
+```
